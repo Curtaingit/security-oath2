@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/oath?useSSL=false
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+      indent-output: true
+
+server:
+  port: 8080
+wechat:
+    client:
+       clientId: wx6facec47c2fca33b
+       clientSecret: 65568ccf41d0e3ed967d547bf1e71166
+       accessTokenUri: https://api.weixin.qq.com/sns/oauth2/access_token
+       userAuthorizationUri: https://open.weixin.qq.com/connect/oauth2/authorize
+       authenticationScheme: query
+       clientAuthenticationScheme: form
+       scope: snsapi_userinfo
+    grant-type: client_credentials
+    resource:
+      userInfoUri: https://api.weixin.qq.com/sns/userinfo?lang=zh_CN&openId=$openId$
+      accpetcode_url: http://rtest.rwlai.cn/shop/login/wechat
+
+logging:
+  level:
+    #org.springframework.security: DEBUG
+    #org.hibernate: DEBUG
+    org.springframework.boot.jackson: DEBUG
+
+
+urlpath: http://www.embracex.com/shop/login/wechat
