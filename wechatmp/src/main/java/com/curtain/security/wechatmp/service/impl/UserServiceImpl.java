@@ -3,7 +3,6 @@ package com.curtain.security.wechatmp.service.impl;
 import com.curtain.security.wechatmp.domain.User;
 import com.curtain.security.wechatmp.repository.UserRepository;
 import com.curtain.security.wechatmp.service.UserService;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

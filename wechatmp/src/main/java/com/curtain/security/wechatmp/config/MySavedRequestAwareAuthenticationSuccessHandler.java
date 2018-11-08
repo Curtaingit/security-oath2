@@ -14,6 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * @author Curtain
+ * @date 2018/11/8 9:00
+ */
+
 @Component("authenticationSuccessHandler")
 public class MySavedRequestAwareAuthenticationSuccessHandler
         extends SimpleUrlAuthenticationSuccessHandler {
@@ -50,7 +55,6 @@ public class MySavedRequestAwareAuthenticationSuccessHandler
             response.setContentType("text/html;charset=utf-8");
             ServletOutputStream outputStream = response.getOutputStream();
             outputStream.write(("<script>"+PRESCRIPT.replace("$token$", sid)+"</script>").getBytes("utf-8"));
-            //outputStream.write(pwd.getBytes("utf-8"));
             outputStream.flush();
             outputStream.close();
 

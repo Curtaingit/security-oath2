@@ -8,6 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 认证处理  返回401
+ * @author Curtain
+ * @date 2018/11/8 9:09
+ */
+
 @Component( "restAuthenticationEntryPoint" )
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

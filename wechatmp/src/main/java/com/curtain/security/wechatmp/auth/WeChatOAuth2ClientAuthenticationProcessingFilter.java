@@ -14,9 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class WechatOAuth2ClientAuthenticationProcessingFilter extends OAuth2ClientAuthenticationProcessingFilter {
+/**
+ * @author Curtain
+ * @date 2018/11/8 9:27
+ */
 
-    public WechatOAuth2ClientAuthenticationProcessingFilter(String path) {
+public class WeChatOAuth2ClientAuthenticationProcessingFilter extends OAuth2ClientAuthenticationProcessingFilter {
+
+    public WeChatOAuth2ClientAuthenticationProcessingFilter(String path) {
         super(path);
         ((SavedRequestAwareAuthenticationSuccessHandler)this.getSuccessHandler()).setTargetUrlParameter("state");
 
@@ -31,10 +36,8 @@ public class WechatOAuth2ClientAuthenticationProcessingFilter extends OAuth2Clie
         } catch (UserRedirectRequiredException ex2) {
             throw ex2;
         } catch (Exception e) {
-
             e.printStackTrace();
-            this.unsuccessfulAuthentication((HttpServletRequest) req, (HttpServletResponse) res, new AuthenticationException("不可描述之错误，请通知管理员！") {
-
+            this.unsuccessfulAuthentication((HttpServletRequest) req, (HttpServletResponse) res, new AuthenticationException("") {
             });
         }
     }

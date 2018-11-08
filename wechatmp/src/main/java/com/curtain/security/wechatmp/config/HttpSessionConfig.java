@@ -7,8 +7,10 @@ import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 import org.springframework.session.web.http.HttpSessionStrategy;
 
 /**
- * Created by cx on 17-12-25.
+ * @author Curtain
+ * @date 2018/11/8 9:08
  */
+
 @Configuration
 @EnableJdbcHttpSession
 public class HttpSessionConfig {

@@ -10,17 +10,20 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * Created by cx on 17-12-29.
+ * 认证成功后  用户信息处理
+ *
+ * @author Curtain
+ * @date 2018/11/8 9:08
  */
+
 @Component
-public class WechatUserinfoExtractor implements PrincipalExtractor {
+public class WeChatUserInfoExtractor implements PrincipalExtractor {
 
     @Autowired
     private UserService userService;
 
     @Override
     public Object extractPrincipal(Map<String, Object> map) {
-
 
         String openid = (String)map.get("openid");
         if (userService.findByOpenid(openid)==null){

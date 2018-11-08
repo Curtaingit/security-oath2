@@ -2,10 +2,9 @@ package com.curtain.security.wechatmp.service;
 
 import com.curtain.security.wechatmp.domain.User;
 
-import java.util.List;
-
 /**
- * Created by cx on 17-11-30.
+ * @author Curtain
+ * @date 2018/11/8 8:58
  */
 
 public interface UserService {

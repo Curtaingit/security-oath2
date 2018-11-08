@@ -13,16 +13,21 @@ import org.springframework.security.oauth2.client.token.grant.code.Authorization
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.util.MultiValueMap;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Curtain
+ * @date 2018/11/8 9:08
+ */
 
-public class WeixinAuthorizationCodeAccessTokenProvider extends AuthorizationCodeAccessTokenProvider {
+public class WeChatAuthorizationCodeAccessTokenProvider extends AuthorizationCodeAccessTokenProvider {
 
-    private String hendlercodeurl;
+    private String handlerCodeUrl;
 
-    public WeixinAuthorizationCodeAccessTokenProvider(List<HttpMessageConverter<?>> messageConverters, String hendlercodeurl) {
-        this.hendlercodeurl=hendlercodeurl;
+    public WeChatAuthorizationCodeAccessTokenProvider(List<HttpMessageConverter<?>> messageConverters, String handlerCodeUrl) {
+        this.handlerCodeUrl = handlerCodeUrl;
         this.setMessageConverters(messageConverters);
         this.setTokenRequestEnhancer(new RequestEnhancer(){
             @Override
@@ -44,7 +49,7 @@ public class WeixinAuthorizationCodeAccessTokenProvider extends AuthorizationCod
     public OAuth2AccessToken obtainAccessToken(OAuth2ProtectedResourceDetails details, AccessTokenRequest request) throws UserRedirectRequiredException, UserApprovalRequiredException,
             AccessDeniedException, OAuth2AccessDeniedException {
 
-        List<String>  states=(List<String>)request.get("url");
+        List<String> states=request.get("url");
         try {
             //获取url的内容
             request.setPreservedState(request.get("state"));
@@ -52,8 +57,9 @@ public class WeixinAuthorizationCodeAccessTokenProvider extends AuthorizationCod
         } catch (UserRedirectRequiredException e) {
 
             Map<String, String> params = e.getRequestParams();
-            params.put("redirect_uri",this.hendlercodeurl);
-            e.setStateToPreserve(this.hendlercodeurl);
+            params.put("redirect_uri",this.handlerCodeUrl);
+            e.setStateToPreserve(this.handlerCodeUrl);
+
             if(states!=null && states.size()>0){
                 e.setStateKey(states.get(0));
             }

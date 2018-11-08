@@ -24,16 +24,9 @@ wechat:
        authenticationScheme: query
        clientAuthenticationScheme: form
        scope: snsapi_userinfo
-    grant-type: client_credentials
     resource:
-      userInfoUri: https://api.weixin.qq.com/sns/userinfo?lang=zh_CN&openId=$openId$
-      accpetcode_url: http://rtest.rwlai.cn/shop/login/wechat
+      #通过openid获取用户信息
+      userInfoUri: https://api.weixin.qq.com/sns/userinfo?lang=zh_CN&openid=$OPENID$
+      #获取code后 重新跳转链接
+      tokenInfoUri: http://www.embracex.com/shop/login/wechat
 
-logging:
-  level:
-    #org.springframework.security: DEBUG
-    #org.hibernate: DEBUG
-    org.springframework.boot.jackson: DEBUG
-
-
-urlpath: http://www.embracex.com/shop/login/wechat

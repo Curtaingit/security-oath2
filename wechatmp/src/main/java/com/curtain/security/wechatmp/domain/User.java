@@ -3,27 +3,25 @@ package com.curtain.security.wechatmp.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+/**
+ * 用户信息实体类
+ *
+ * @author Curtain
+ * @date 2018/11/8 8:59
+ */
 
 @Entity
-
 @Table(name = "T_User")
-@Getter@Setter
+@Setter
+@Getter
 public class User {
     @Id
-    @GenericGenerator(name="idGenerator", strategy="uuid") //这个是hibernate的注解/生成32位UUID
-    @GeneratedValue(generator="idGenerator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emailSeq")
+    @SequenceGenerator(initialValue = 1, name = "emailSeq", sequenceName = "EMAIL_SEQUENCE")
     private Long id;
-
-    public Long getId() {
-        return id;
-    }
-
 
     private String name;
 
