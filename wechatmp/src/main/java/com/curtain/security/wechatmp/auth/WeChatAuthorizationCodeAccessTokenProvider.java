@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 认证提供器
+ * 功能：1.获取code 2.获取token
  * @author Curtain
  * @date 2018/11/8 9:08
  */

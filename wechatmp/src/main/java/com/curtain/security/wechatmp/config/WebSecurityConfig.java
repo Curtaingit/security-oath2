@@ -56,7 +56,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private WeChatUserInfoExtractor weChatUserInfoExtractor;
 
     @Autowired
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
+
+    @Autowired
+    private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -64,11 +67,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
                 .exceptionHandling()
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .authenticationEntryPoint(myAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .antMatchers("/login/**").permitAll();
+                .antMatchers("/login/**").permitAll()
+                .antMatchers("/**").authenticated();
     }
 
     @Bean
@@ -129,7 +132,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         tokenServices.setPrincipalExtractor(weChatUserInfoExtractor);
         tokenServices.setRestTemplate(oAuth2RestTemplate);
 
-        weChatOAuth2Filter.setAuthenticationSuccessHandler(new MySavedRequestAwareAuthenticationSuccessHandler(true));
+        weChatOAuth2Filter.setAuthenticationSuccessHandler(new MyAuthenticationSuccessHandler(true));
         weChatOAuth2Filter.setRestTemplate(oAuth2RestTemplate);
         weChatOAuth2Filter.setTokenServices(tokenServices);
 

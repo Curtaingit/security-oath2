@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 认证处理  返回401
+ * 认证过程中失败处理
  * @author Curtain
  * @date 2018/11/8 9:09
  */
 
-@Component( "restAuthenticationEntryPoint" )
-public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+@Component("myAuthenticationEntryPoint")
+public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(
