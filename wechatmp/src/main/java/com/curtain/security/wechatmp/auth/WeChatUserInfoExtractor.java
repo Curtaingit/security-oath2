@@ -29,7 +29,7 @@ public class WeChatUserInfoExtractor implements PrincipalExtractor {
         if (userService.findByOpenid(openid)==null){
             User user =new User();
             user.setName((String)map.get("nickname"));
-            user.setOpenId(openid);
+            user.setOpenid(openid);
             user.setSex((map.get("sex").toString()));
             user.setCity((String)(map.get("city")));
             user.setProvince((String)(map.get("province")));

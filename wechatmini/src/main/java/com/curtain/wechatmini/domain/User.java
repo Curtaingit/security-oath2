@@ -1,4 +1,4 @@
-package com.curtain.security.wechatmp.domain;
+package com.curtain.wechatmini.domain;
 
 
 import lombok.Getter;
