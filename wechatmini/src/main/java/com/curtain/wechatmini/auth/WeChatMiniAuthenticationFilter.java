@@ -8,7 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,18 +17,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Map;
 
+/**
+ * @author Curtain
+ * @date 2018/11/8:39
+ */
 
-public class WechatMiniAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class WeChatMiniAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
 
     public static final String SPRING_SECURITY_FORM_CODE_KEY = "code";
 
-    private String codeParameter = SPRING_SECURITY_FORM_CODE_KEY;
-
-
     private boolean postOnly = true;
 
-    public WechatMiniAuthenticationFilter() {
+    public WeChatMiniAuthenticationFilter() {
         super(new AntPathRequestMatcher("/login/wechatmini", "POST"));
     }
 
@@ -49,7 +49,7 @@ public class WechatMiniAuthenticationFilter extends AbstractAuthenticationProces
 
         code = code.trim();
 
-        WechatMiniAuthenticationToken authRequest = new WechatMiniAuthenticationToken(code, false);
+        WeChatMiniAuthenticationToken authRequest = new WeChatMiniAuthenticationToken(code, false);
 
         setDetails(request, authRequest);
 
@@ -64,7 +64,7 @@ public class WechatMiniAuthenticationFilter extends AbstractAuthenticationProces
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             String line = br.readLine();
             Map map = (Map) JSON.parse(line.toString());
-            code = (String) map.get("code");
+            code = (String) map.get(SPRING_SECURITY_FORM_CODE_KEY);
         } catch (IOException e) {
             throw new BadCredentialsException("bad code");
         }
@@ -73,24 +73,8 @@ public class WechatMiniAuthenticationFilter extends AbstractAuthenticationProces
 
 
     protected void setDetails(HttpServletRequest request,
-                              WechatMiniAuthenticationToken authRequest) {
+                              WeChatMiniAuthenticationToken authRequest) {
         authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
-    }
-
-    /**
-     * Sets the parameter name which will be used to obtain the username from the login
-     * request.
-     *
-     * @param codeParameter the parameter name. Defaults to "username".
-     */
-    public void setCodeParameter(String codeParameter) {
-        Assert.hasText(codeParameter, "code parameter must not be empty or null");
-        this.codeParameter = codeParameter;
-    }
-
-
-    public final String codeParameter() {
-        return codeParameter;
     }
 
 }

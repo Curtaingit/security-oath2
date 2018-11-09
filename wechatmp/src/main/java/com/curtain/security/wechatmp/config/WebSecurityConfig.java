@@ -56,9 +56,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private WeChatUserInfoExtractor weChatUserInfoExtractor;
 
     @Autowired
-    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
-
-    @Autowired
     private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
     @Override
@@ -111,7 +108,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public ClientResources weChat() {
         return new ClientResources();
     }
-
 
     /**
      * 构造微信认证

@@ -2,8 +2,9 @@ package com.curtain.wechatmini.config;
 
 
 
-import com.curtain.wechatmini.auth.WechatMiniAuthenticationFilter;
-import com.curtain.wechatmini.auth.WechatMiniAuthenticationProvider;
+import com.curtain.wechatmini.auth.WeChatMiniAuthenticationFilter;
+import com.curtain.wechatmini.auth.WeChatMiniAuthenticationProvider;
+import com.curtain.wechatmini.auth.WeChatMiniUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +15,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,26 +30,29 @@ import java.util.Arrays;
 import java.util.List;
 
 
+/**
+ * Security配置
+ *
+ * @author Curtain
+ * @date 2018/11/8 9:10
+ */
+
 @Configuration
 @EnableWebSecurity
-@CrossOrigin(origins = {}, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS})
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${wechatmini.appId}")
-    private String appId;
-
-    @Value("${wechatmini.secret}")
-    private String secret;
+    @Autowired
+    private WeChatMiniResources weChatMiniResources;
 
     @Autowired
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private WeChatMiniUserInfo weChatMiniUserInfo;
 
     @Autowired
-    private MySavedRequestAwareAuthenticationSuccessHandler authenticationSuccessHandler;
+    private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
     @Autowired
-    private AuthenticationFailureHandler authenticationFailureHandler;
+    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -59,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .addFilterBefore(ssoFilter(am), BasicAuthenticationFilter.class)
                 .exceptionHandling()
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .authenticationEntryPoint(myAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/login/wechatmini").permitAll()
@@ -69,20 +72,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(new WechatMiniAuthenticationProvider(appId,secret));
+        auth.authenticationProvider(new WeChatMiniAuthenticationProvider(weChatMiniResources,weChatMiniUserInfo));
     }
-
-
-    @Bean
-    public MySavedRequestAwareAuthenticationSuccessHandler mySuccessHandler() {
-        return new MySavedRequestAwareAuthenticationSuccessHandler();
-    }
-
-    @Bean
-    public SimpleUrlAuthenticationFailureHandler myFailureHandler() {
-        return new SimpleUrlAuthenticationFailureHandler();
-    }
-
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -101,10 +92,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private Filter ssoFilter(AuthenticationManager am) {
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
-        WechatMiniAuthenticationFilter wmaFilter = new WechatMiniAuthenticationFilter();
+        WeChatMiniAuthenticationFilter wmaFilter = new WeChatMiniAuthenticationFilter();
         wmaFilter.setAuthenticationManager(am);
-        wmaFilter.setAuthenticationSuccessHandler(this.authenticationSuccessHandler);
-        wmaFilter.setAuthenticationFailureHandler(this.authenticationFailureHandler);
+        wmaFilter.setAuthenticationSuccessHandler(this.myAuthenticationSuccessHandler);
+        wmaFilter.setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler());
         filters.add(wmaFilter);
         filter.setFilters(filters);
         return filter;

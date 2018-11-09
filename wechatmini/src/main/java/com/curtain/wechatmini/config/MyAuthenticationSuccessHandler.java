@@ -14,15 +14,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component("authenticationSuccessHandler")
-public class MySavedRequestAwareAuthenticationSuccessHandler
+/**
+ * @author Curtain
+ * @date 2018/11/8 9:00
+ */
+
+@Component("myAuthenticationSuccessHandler")
+public class MyAuthenticationSuccessHandler
         extends SimpleUrlAuthenticationSuccessHandler {
 
     private RequestCache requestCache = new HttpSessionRequestCache();
-    MySavedRequestAwareAuthenticationSuccessHandler(){
+    MyAuthenticationSuccessHandler(){
         super();
     }
-    public MySavedRequestAwareAuthenticationSuccessHandler(boolean isFromOAuth2) {
+    public MyAuthenticationSuccessHandler(boolean isFromOAuth2) {
         super();
         this.isFromOAuth2 = isFromOAuth2;
     }

@@ -8,8 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component( "restAuthenticationEntryPoint" )
-public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+/**
+ * 认证过程中失败处理
+ * @author Curtain
+ * @date 2018/11/8 9:09
+ */
+
+@Component( "myAuthenticationEntryPoint" )
+public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(

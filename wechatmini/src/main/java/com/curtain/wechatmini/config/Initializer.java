@@ -3,8 +3,10 @@ package com.curtain.wechatmini.config;
 import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
 
 /**
- * Created by cx on 17-12-25.
+ * @author Curtain
+ * @date 2018/11/8 9:02
  */
+
 public class Initializer extends AbstractHttpSessionApplicationInitializer {
 
 }
