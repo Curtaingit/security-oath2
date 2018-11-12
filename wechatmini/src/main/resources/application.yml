@@ -15,6 +15,6 @@ wechatmini:
     appId: wx6facec47c2fca33b
     #secret
     secret: 65568ccf41d0e3ed967d547bf1e71166
-    #auth
+    #code获取openid连接
     authUrl: https://api.weixin.qq.com/sns/jscode2session
 

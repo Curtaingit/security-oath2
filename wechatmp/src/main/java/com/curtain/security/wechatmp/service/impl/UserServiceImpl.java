@@ -25,6 +25,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByOpenid(String openid) {
 
-        return repository.findByOpenId(openid);
+        return repository.findByOpenid(openid);
     }
 }
